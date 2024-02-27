@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <form method="post">
+            <label for="date" value="{{current_date}}">Date</label>
+            <input type="date" name="date">
+            <br><br>
+            <label for="starttime" value="{{starttime}}">Start Time</label>
+            <input type="time" name="starttime">
+            <br><br>
+            <label for="endtime">End Time</label>
+            <input type="time" name="endtime">
+            <br><br>
+            <label for="note">Note</label>
+            <input type="text" name="note">
+            <br><br>
+            <a href="{{ url_for('views.start') }}">
+                <button type="submit">Start</button>
+            </a>
+            <button>Stop</button>        
+        </form>
+    </center>
+</body>
+</html>
