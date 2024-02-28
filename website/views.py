@@ -11,7 +11,7 @@ def entry():
 @views.route("/start", methods=["GET", "POST"])
 def start():
     if request.method == "POST":
-        current_date = date.today().strftime("%d/%m/%Y")
+        current_date = date.today().strftime("%Y-%m-%d")
         print(current_date)
         starttime = datetime.now().strftime("%H:%M")
         print(starttime)
