@@ -8,9 +8,12 @@ views = Blueprint('views', __name__)
 def entry():
     return render_template("entry.html")
 
-@views.route("/start", methods=["GET, POST"])
+@views.route("/start", methods=["GET", "POST"])
 def start():
-    current_date = date.today().strftime("%d/%m/%Y")
-    starttime = datetime.now().strftime("%H:%M")
+    if request.method == "POST":
+        current_date = date.today().strftime("%d/%m/%Y")
+        print(current_date)
+        starttime = datetime.now().strftime("%H:%M")
+        print(starttime)
 
-    return render_template("entry.html", current_date=current_date, starttime=starttime)
+        return render_template("entry.html", current_date=current_date, starttime=starttime)

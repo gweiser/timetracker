@@ -7,12 +7,12 @@
 </head>
 <body>
     <center>
-        <form method="post">
-            <label for="date" value="{{current_date}}">Date</label>
-            <input type="date" name="date">
+        <form action="/start" method="post">
+            <label for="date">Date</label>
+            <input type="text" name="date" value="{{current_date}}">
             <br><br>
-            <label for="starttime" value="{{starttime}}">Start Time</label>
-            <input type="time" name="starttime">
+            <label for="starttime">Start Time</label>
+            <input type="time" name="starttime" value="{{starttime}}">
             <br><br>
             <label for="endtime">End Time</label>
             <input type="time" name="endtime">
@@ -20,9 +20,7 @@
             <label for="note">Note</label>
             <input type="text" name="note">
             <br><br>
-            <a href="{{ url_for('views.start') }}">
-                <button type="submit">Start</button>
-            </a>
+            <button type="submit">Start</button>
             <button>Stop</button>        
         </form>
     </center>
