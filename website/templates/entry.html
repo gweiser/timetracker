@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Time Tracker</title>
 </head>
 <body>
     <center>
-        <form action="/start" method="post">
+        <form action="/startstop" method="post">
             <label for="date">Date</label>
             <input type="date" name="date" value="{{current_date}}">
             <br><br>
@@ -15,14 +15,16 @@
             <input type="time" name="starttime" value="{{starttime}}">
             <br><br>
             <label for="endtime">End Time</label>
-            <input type="time" name="endtime">
+            <input type="time" name="endtime" value="{{endtime}}">
+            <br><br>
+            <label for="worktime">Time Worked</label>
+            <input type="time" name="worktime" value="{{worktime}}">
             <br><br>
             <label for="note">Note</label>
             <input type="text" name="note">
             <br><br>
-            <button type="submit">Start</button>
-            <button>Stop</button>        
-        </form>
+            <button type="submit">Start/Stop</button>
+        </form> 
     </center>
 </body>
 </html>
