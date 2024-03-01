@@ -28,16 +28,15 @@ def startstop():
                     # Set endtime to current time
                     endtime = datetime.now().strftime("%H:%M")
 
-                # Correctly format inputs
-                startime_split = starttime.split(":")
-                startime_format = int(startime_split[0] + startime_split[1])
-                endtime_split = endtime.split(":")
-                endtime_format = int(endtime_split[0] + endtime_split[1])
+                t1 = datetime.strptime(starttime, "%H:%M")
+                t2 = datetime.strptime(endtime, "%H:%M")
 
-                # Calculate difference, format it to have 4 digits
-                difference = str(endtime_format - startime_format).zfill(4)
-                # Convert to time format
-                worktime = difference[:2] + ":" + difference[2:]
+                timedelta = t2-t1
+                seconds = timedelta.total_seconds()
+                minutes = seconds / 60
+                hours = minutes / 60
+
+                worktime = 0
 
         return render_template("entry.html", current_date=current_date, starttime=starttime, endtime=endtime, worktime=worktime)
     
