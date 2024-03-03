@@ -10,7 +10,6 @@ db = get_db_connection()
 def home():
     entries_row = db.execute("SELECT * FROM entries").fetchall()
     entries = []
-    counter = 0
     for row in entries_row:
         entries.append(
             {"id": row["id"],
@@ -24,7 +23,6 @@ def home():
              "block_id": row["block_id"]
              }
         )
-        counter += 1
 
     return render_template("index.html", entries=entries)
 

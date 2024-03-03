@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Time Tracker</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+    <br><br><br>
     <center>
         <form action="/startstop" method="post">
             <label for="date">Date</label>
@@ -34,5 +29,4 @@
             <input type="submit" name="submit_button" value="Submit">
         </form> 
     </center>
-</body>
-</html>
+{% endblock %}
