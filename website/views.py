@@ -1,6 +1,7 @@
 from . import get_db_connection
 from flask import Blueprint, request, render_template, redirect
 from datetime import date, datetime
+import re
 
 views = Blueprint('views', __name__) 
 
@@ -30,27 +31,21 @@ def startstop():
 
                 t1 = datetime.strptime(starttime, "%H:%M")
                 t2 = datetime.strptime(endtime, "%H:%M")
-
-                timedelta = t2-t1
+                
+                # Difference between both times
+                timedelta = str(t2-t1)
                 print(timedelta)
-                seconds = timedelta.total_seconds()
-                minutes = int(seconds / 60)
+                # use RegEx to filter out time from output
+                filter = re.split("[:]", timedelta)
 
-                if minutes < 60:
-                    worktime = f"00:{(minutes)}"
-                elif minutes > 59:
-                    # Hours with comma
-                    total = str(round((minutes / 60), 2))
-                    # Just hours
-                    hours = total.split(".")[0].zfill(2)
-                    # Minutes to the hundredth
-                    minutes_hundreds = int(total.split(".")[1]) / 100 
-                    #Remaining minutes
-                    minutes_full = int(round((minutes_hundreds * 60), 0))
-                    # Minutes formatted
-                    minutes = str(minutes_full).zfill(2)
-                    worktime = f"{hours}:{minutes}"
+                # Get hours properly formatted
+                hours_unfiltered = filter[0]
+                hours = hours_unfiltered[-1].zfill(2)
+                # Get minutes
+                minutes = filter[1].zfill(2)
 
+                worktime = f"{hours}:{minutes}"
+ 
 
         return render_template("entry.html", current_date=current_date, starttime=starttime, endtime=endtime, worktime=worktime)
     
