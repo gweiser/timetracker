@@ -2,21 +2,24 @@
     {% block content %}
     <table class="table table-bordered">
         <th>Date</th>
-        <th>Start</th>
-        <th>End</th>
+        <th>Start Time</th>
+        <th>End Time</th>
         <th>Duration</th>
-        <th>Note</th>
         <th>Wage</th>
         <th>Pay</th>
+        <th>Note</th>
         {% for row in entries %}
         <tr>
             <td>{{row.creation_date}}</td>
             <td>{{row.start_time}}</td>
             <td>{{row.end_time}}</td>
             <td>{{row.duration}}</td>
-            <td>{{row.note}}</td>
             <td>{{row.wage}}</td>
             <td>{{row.pay}}</td>
+            <td>{{row.note}}</td>
+            <td>
+                <a href="{{url_for('views.paid', id=row.id)}}"><button class="btn btn-success">Paid</button></a>
+            </td>
         <tr>
         {% endfor %}
     </table>

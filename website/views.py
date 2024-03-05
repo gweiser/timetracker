@@ -19,8 +19,7 @@ def home():
              "duration": row["duration"],
              "note": row["note"],
              "wage": row["wage"],
-             "pay": row["pay"],
-             "block_id": row["block_id"]
+             "pay": row["pay"]
              }
         )
 
@@ -73,7 +72,7 @@ def startstop():
                 # Calculate Wage
                 wage = int(request.form.get("wage"))
                 total_hours = (timedelta.total_seconds() / 60) / 60
-                pay = str(wage * total_hours)
+                pay = f"€ {round(wage * total_hours, 2)}"
             
         elif request.form["submit_button"] == "Submit":
             # If inputs are submitted
@@ -86,14 +85,51 @@ def startstop():
             note = request.form.get("note")
 
             db.execute("""
-                       INSERT INTO entries (creation_date, start_time, end_time, duration, note, wage, pay, block_id)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                       """, (creation_date, starttime, endtime, duration, note, wage, pay, 1))
+                       INSERT INTO entries (creation_date, start_time, end_time, duration, note, wage, pay)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)
+                       """, (creation_date, starttime, endtime, duration, note, wage, pay))
             db.commit()
-            db.close()
 
-            return redirect(url_for("views.entry"))
+            return redirect(url_for("views.home"))
         return render_template("entry.html", creation_date=creation_date, starttime=starttime, endtime=endtime, worktime=worktime, pay=pay)
     else:      
         return render_template("entry.html", creation_date=creation_date, starttime=starttime, endtime=endtime, worktime=worktime, pay=pay)
     
+
+@views.route("/paid/<int:id>", methods=["GET", "POST"])
+def paid(id=None):
+    if id is not None:
+        # Get data
+        data = db.execute("SELECT * FROM entries WHERE id = ?", (id, )).fetchone()
+        # Insert data into paid table
+        db.execute("""
+                   INSERT INTO paid (id, creation_date, start_time, end_time, duration, note, wage, pay)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+                   """, (data["id"], data["creation_date"], data["start_time"], data["end_time"], data["duration"], data["note"], data["wage"], data["pay"]))
+        # Delete from home view
+        db.execute("DELETE FROM entries WHERE id = ?", (id, ))
+        db.commit()
+
+        return redirect(url_for("views.home"))
+    else:
+        return redirect(url_for("views.home"))
+    
+@views.route("/paid_view", methods=["GET", "POST"])
+def paid_view():
+    if request.method == "GET":
+        data_row = db.execute("SELECT * FROM paid").fetchall()
+        data = []
+
+        for row in data_row:
+            data.append(
+                    {"id": row["id"],
+                    "creation_date": row["creation_date"],
+                    "start_time": row["start_time"],
+                    "end_time": row["end_time"],
+                    "duration": row["duration"],
+                    "note": row["note"],
+                    "wage": row["wage"],
+                    "pay": row["pay"]}
+            )
+        
+        return render_template("paid_view.html", data=data)
