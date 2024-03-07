@@ -1,6 +1,9 @@
 import sqlite3
+from config import get_filepath
 
-db = sqlite3.connect('database.db')
+filepath = get_filepath()
+
+db = sqlite3.connect("database.db")
 
 db.executescript(
     """
