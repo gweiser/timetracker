@@ -148,8 +148,16 @@ def paid_view():
 @views.route("/delete/<int:id>", methods=["GET", "POST"])
 def delete(id=None):
     if id is not None:
-        # Delte from database
-        db.execute("DELETE FROM entries WHERE id = ?", (id, ))    
+        # Get entry
+        data = db.execute("SELECT * FROM entries WHERE id = ?", (id, )).fetchone()
+        # Insert into bin
+        db.execute("""
+                   INSERT INTO bin (id, creation_date, start_time, end_time, duration, note, wage, pay)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+
+                   """, (data["id"], data["creation_date"], data["start_time"], data["end_time"], data["duration"], data["note"], data["wage"], data["pay"]))
+        # Delete from entries
+        db.execute("DELETE FROM entries WHERE id = ?", (id, ))
         db.commit()
 
         return redirect(url_for("views.home"))
