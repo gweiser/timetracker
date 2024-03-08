@@ -35,7 +35,7 @@ def entry():
 
 @views.route("/startstop", methods=["GET", "POST"])
 def startstop():
-    if request.method == "POST":
+    if request.method == "POST": 
         if request.form["submit_button"] == "Start/Stop":
             creation_date = request.form.get("date")
             starttime = request.form.get("starttime")
@@ -143,3 +143,15 @@ def paid_view():
             )
         
         return render_template("paid_view.html", data=data)
+    
+
+@views.route("/delete/<int:id>", methods=["GET", "POST"])
+def delete(id=None):
+    if id is not None:
+        # Delte from database
+        db.execute("DELETE FROM entries WHERE id = ?", (id, ))    
+        db.commit()
+
+        return redirect(url_for("views.home"))
+    else:
+        return redirect(url_for("views.home"))
