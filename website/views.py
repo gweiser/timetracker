@@ -22,8 +22,12 @@ def home():
              "pay": row["pay"]
              }
         )
+    total = 0
+    for entry in entries:
+        total += float(entry["pay"].split("€")[1])
 
-    return render_template("index.html", entries=entries)
+
+    return render_template("index.html", entries=entries, total=f"€ {str(total)}")
 
 @views.route("/entry", methods=["GET", "POST"])
 def entry():
@@ -42,6 +46,8 @@ def startstop():
             if len(starttime) == 0:
                 creation_date = date.today().strftime("%Y-%m-%d")
                 starttime = datetime.now().strftime("%H:%M")
+                # todo: Insert starttime into temp
+
                 # Set other variables to 0, so that render_template works
                 endtime = 0
                 worktime = 0
@@ -51,12 +57,14 @@ def startstop():
                 if len(endtime) == 0:
                     # Set endtime to current time
                     endtime = datetime.now().strftime("%H:%M")
-
+                # todo: Insert endtime into temp
+                    
                 t1 = datetime.strptime(starttime, "%H:%M")
                 t2 = datetime.strptime(endtime, "%H:%M")
                 
                 # Difference between both times
                 timedelta = t2-t1
+
                 # use RegEx to filter out time from output
                 filter = re.split("[:]", str(timedelta))
 
@@ -67,12 +75,14 @@ def startstop():
                 minutes = filter[1].zfill(2)
 
                 worktime = f"{hours}:{minutes}"
+                # todo: Insert worktime into temp
 
 
                 # Calculate Wage
                 wage = int(request.form.get("wage"))
                 total_hours = (timedelta.total_seconds() / 60) / 60
                 pay = f"€ {round(wage * total_hours, 2)}"
+                # todo: Insert wage and pay into temp
             
         elif request.form["submit_button"] == "Submit":
             # If inputs are submitted
