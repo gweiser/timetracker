@@ -20,7 +20,11 @@
             <td>
                 <a href="{{url_for('views.paid', id=row.id)}}"><button class="btn btn-success">Paid</button></a>
             </td>
+            <td>
+                <a href="{{url_for('views.delete', id=row.id)}}"><button class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button></a>
+            </td>
         <tr>
         {% endfor %}
     </table>
+    <p>Total: {{total}} </p>
     {% endblock %}
