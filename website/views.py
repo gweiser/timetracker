@@ -163,3 +163,7 @@ def delete(id=None):
         return redirect(url_for("views.home"))
     else:
         return redirect(url_for("views.home"))
+    
+@views.route("/bin", methods=["GET", "POST"])
+def bin():
+    pass
