@@ -1,6 +1,7 @@
 import sqlite3
+from config import FILEPATH
 
-db = sqlite3.connect('database.db')
+db = sqlite3.connect("database.db")
 
 db.executescript(
     """
