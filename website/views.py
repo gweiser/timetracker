@@ -46,7 +46,6 @@ def startstop():
             if len(starttime) == 0:
                 creation_date = date.today().strftime("%Y-%m-%d")
                 starttime = datetime.now().strftime("%H:%M")
-                # todo: Insert starttime into temp
 
                 # Set other variables to 0, so that render_template works
                 endtime = 0
@@ -57,7 +56,6 @@ def startstop():
                 if len(endtime) == 0:
                     # Set endtime to current time
                     endtime = datetime.now().strftime("%H:%M")
-                # todo: Insert endtime into temp
                     
                 t1 = datetime.strptime(starttime, "%H:%M")
                 t2 = datetime.strptime(endtime, "%H:%M")
@@ -75,14 +73,12 @@ def startstop():
                 minutes = filter[1].zfill(2)
 
                 worktime = f"{hours}:{minutes}"
-                # todo: Insert worktime into temp
 
 
                 # Calculate Wage
                 wage = int(request.form.get("wage"))
                 total_hours = (timedelta.total_seconds() / 60) / 60
                 pay = f"€ {round(wage * total_hours, 2)}"
-                # todo: Insert wage and pay into temp
             
         elif request.form["submit_button"] == "Submit":
             # If inputs are submitted
@@ -163,3 +159,25 @@ def delete(id=None):
         return redirect(url_for("views.home"))
     else:
         return redirect(url_for("views.home"))
+
+
+@views.route("/bin_view", methods=["GET", "POST"])
+def bin_view():
+    if request.method == "GET":
+        data = db.execute("SELECT * FROM bin").fetchall()
+        bin_entries = []
+        for row in data:
+            bin_entries.append(
+                {
+                    "id": row["id"],
+                    "creation_date": row["creation_date"],
+                    "start_time": row["start_time"],
+                    "end_time": row["end_time"],
+                    "duration": row["duration"],
+                    "note": row["note"],
+                    "wage": row["wage"],
+                    "pay": row["pay"]
+                }
+            )
+
+    return render_template("bin_view.html", bin_entries=bin_entries)
