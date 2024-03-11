@@ -1,7 +1,5 @@
 import sqlite3
-from config import get_filepath
-
-filepath = get_filepath()
+from config import FILEPATH
 
 db = sqlite3.connect("database.db")
 

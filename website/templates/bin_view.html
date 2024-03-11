@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table table-bordered">
+    <th>Date</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Duration</th>
+    <th>Wage</th>
+    <th>Pay</th>
+    <th>Note</th>
+    {% for row in bin_entries %}
+    <tr>
+        <td>{{row.creation_date}}</td>
+        <td>{{row.start_time}}</td>
+        <td>{{row.end_time}}</td>
+        <td>{{row.duration}}</td>
+        <td>{{row.wage}}</td>
+        <td>{{row.pay}}</td>
+        <td>{{row.note}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
