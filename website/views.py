@@ -201,3 +201,11 @@ def bin_view():
             )
 
     return render_template("bin_view.html", bin_entries=bin_entries)
+
+@views.route("/clear_bin", methods=["GET", "POST"])
+def clear_bin():
+
+    db.execute("DELETE FROM bin")
+    db.commit()
+
+    return redirect(url_for("views.home"))

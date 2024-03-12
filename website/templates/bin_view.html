@@ -18,7 +18,10 @@
         <td>{{row.wage}}</td>
         <td>{{row.pay}}</td>
         <td>{{row.note}}</td>
+        {% endfor %}
     </tr>
-    {% endfor %}
 </table>
+<a href="{{url_for('views.clear_bin')}}">
+    <button class="btn btn-danger">Clear Bin</button>
+</a>
 {% endblock %}
