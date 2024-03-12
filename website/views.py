@@ -140,6 +140,26 @@ def paid_view():
         
         return render_template("paid_view.html", data=data)
     
+@views.route("/undo/<int:id>", methods=["GET", "POST"])
+def undo(id=None):
+    if id is not None:
+        # Get paid entry
+        entry = db.execute("SELECT * FROM paid WHERE id = ?", (id, )).fetchone()
+        # Move to entries
+        db.execute("""
+                    INSERT INTO entries (id, creation_date, start_time, end_time, duration, note, wage, pay)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (entry["id"], entry["creation_date"], entry["start_time"], entry["end_time"], entry["duration"], entry["note"], entry["wage"], entry["pay"]))
+        
+        # Delete from paid
+        db.execute("DELETE FROM paid WHERE id = ?", (id, ))
+        db.commit()
+
+        return redirect(url_for("views.home"))
+    else:
+        return redirect(url_for("views.home"))
+    
 
 @views.route("/delete/<int:id>", methods=["GET", "POST"])
 def delete(id=None):

@@ -19,6 +19,11 @@
         <td>{{row.wage}}</td>
         <td>{{row.pay}}</td>
         <td>{{row.note}}</td>
+        <td>
+            <a href="{{url_for('views.undo', id=row.id)}}">
+                <button class="btn btn-warning">Undo</button>
+            </a>
+        </td>
     </tr>
     {% endfor %}
 </table>
