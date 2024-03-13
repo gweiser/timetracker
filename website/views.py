@@ -140,6 +140,7 @@ def paid_view():
         
         return render_template("paid_view.html", data=data)
     
+    
 @views.route("/undo/<int:id>", methods=["GET", "POST"])
 def undo(id=None):
     if id is not None:
@@ -204,8 +205,25 @@ def bin_view():
 
 @views.route("/clear_bin", methods=["GET", "POST"])
 def clear_bin():
-
+    # Delete everything from bin
     db.execute("DELETE FROM bin")
+    db.commit()
+
+    return redirect(url_for("views.home"))
+
+@views.route("/all_paid", methods=["GET", "POST"])
+def all_paid():
+    # Get all entries 
+    entries = db.execute("SELECT * FROM entries").fetchall()
+    # Insert every entry into paid table 
+    for row in entries:
+        db.execute("""
+                   INSERT INTO paid (id, creation_date, start_time, end_time, duration, note, wage, pay)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                   """, (row["id"], row["creation_date"], row["start_time"], row["end_time"], row["duration"], row["note"], row["wage"], row["pay"]))
+        
+    # Remove from entries table
+    db.execute("DELETE FROM entries")
     db.commit()
 
     return redirect(url_for("views.home"))

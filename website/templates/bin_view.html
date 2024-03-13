@@ -22,6 +22,6 @@
     </tr>
 </table>
 <a href="{{url_for('views.clear_bin')}}">
-    <button class="btn btn-danger">Clear Bin</button>
+    <button class="btn btn-danger" onclick="return confirm('Are you sure?')">Clear Bin</button>
 </a>
 {% endblock %}
