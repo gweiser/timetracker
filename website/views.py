@@ -228,3 +228,30 @@ def all_paid():
     db.commit()
 
     return redirect(url_for("views.home"))
+
+@views.route("/edit/<int:id>", methods=["GET", "POST"])
+def edit(id=None):
+    if id is not None:
+        if request.method == "GET":
+            entry = db.execute("SELECT * FROM entries WHERE id = ?", (id, )).fetchone()
+
+            return render_template("edit.html", creation_date=entry["creation_date"], starttime=entry["start_time"], endtime=entry["end_time"], worktime=entry["duration"], pay=entry["pay"], note=entry["note"], id=id)
+        else:
+            date = request.form.get("date")
+            starttime = request.form.get("starttime")
+            endtime = request.form.get("endtime")
+            duration = request.form.get("worktime")
+            note = request.form.get("note")
+            wage = request.form.get("wage")
+            pay = request.form.get("pay")
+
+            db.execute("DELETE FROM entries WHERE id = ?", (id, ))
+            db.execute("""
+                        INSERT INTO entries (id, creation_date, start_time, end_time, duration, note, wage, pay)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                       """, (id, date, starttime, endtime, duration, note, wage, pay))
+            db.commit()
+
+            return redirect(url_for("views.home"))
+    else:
+        return redirect(url_for("views.home"))
