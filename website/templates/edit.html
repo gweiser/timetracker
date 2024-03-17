@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br><br>
+<center>
+    <form action="/edit/{{id}}" method="post">
+        <label for="date">Date</label>
+        <input type="date" name="date" value="{{creation_date}}">
+        <br><br>
+        <label for="starttime">Start Time</label>
+        <input type="time" name="starttime" value="{{starttime}}">
+        <br><br>
+        <label for="endtime">End Time</label>
+        <input type="time" name="endtime" value="{{endtime}}">
+        <br><br>
+        <label for="worktime">Time Worked</label>
+        <input type="time" name="worktime" value="{{worktime}}">
+        <br><br>
+        <label for="wage">Wage</label>
+        <input type="number" name="wage" value="15">
+        <br><br>
+        <label for="pay">Pay</label>
+        <input type="text" name="pay" value="{{pay}}">
+        <br><br>
+        <label for="note">Note</label>
+        <input type="text" name="note" value="{{note}}">
+        <br><br>
+        <input type="submit" name="submit_button" value="Submit">
+    </form> 
+</center>    
+{% endblock %}
