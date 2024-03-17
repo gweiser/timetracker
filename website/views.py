@@ -158,7 +158,7 @@ def undo(id=None):
         db.execute("DELETE FROM paid WHERE id = ?", (id, ))
         db.commit()
 
-        return redirect(url_for("views.home"))
+        return redirect(url_for("views.paid_view"))
     else:
         return redirect(url_for("views.home"))
     
