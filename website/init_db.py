@@ -28,7 +28,7 @@ db.executescript(
             note TEXT NOT NULL,
             wage INTEGER NOT NULL,
             pay INTEGER NOT NULL
-        )
+        );
 
         DROP TABLE IF EXISTS bin;
 
@@ -41,7 +41,7 @@ db.executescript(
             note TEXT NOT NULL,
             wage INTEGER NOT NULL,
             pay INTEGER NOT NULL
-        )        
+        );        
 
     """
 )
